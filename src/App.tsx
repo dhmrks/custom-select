@@ -33,7 +33,6 @@ const App = () => {
                 value={value2}
                 onChange={handleMultiSelect}
                 options={options}
-                mainColor="#FFC0CB"
             />
         </>
     )

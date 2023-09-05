@@ -17,7 +17,6 @@ type MultiSelectProps = {
 
 type SelectProps = {
     options: SelectOption[],
-    mainColor?: string
 } & (SingleSelectProps | MultiSelectProps)
 
 // Reducer state
