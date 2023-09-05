@@ -17,7 +17,24 @@ const Select: FC<SelectProps> = ({ multiple, options, value, onChange }) => {
 
     const containerRef = useRef<HTMLDivElement>(null)
 
-    const selectedOptions = () => {
+    const isOptionSelected = (option: SelectOption) => multiple ? value.includes(option) : option.value === value?.value
+
+    const handleSelectedOption = useCallback((option: SelectOption) => {
+        if (multiple) {
+            const updatedValue = value.includes(option)
+                ? value.filter((v) => v.value !== option.value)
+                : [...value, option]
+
+            onChange(updatedValue)
+            return
+        }
+        
+        option !== value && onChange(option)
+    }, [multiple, value, onChange])
+
+    const onClearOptions = () => multiple ? onChange([]) : onChange(undefined)
+
+    const selectedOptions = useCallback(() => {
         if (multiple) {
             const selectedOptions = value.map(v => (
                 <button 
@@ -37,27 +54,10 @@ const Select: FC<SelectProps> = ({ multiple, options, value, onChange }) => {
         }
 
         return value?.label
-    }
-
-    const isOptionSelected = (option: SelectOption) => multiple ? value.includes(option) : option.value === value?.value
-
-    const handleSelectedOption = useCallback((option: SelectOption) => {
-        if (multiple) {
-            const updatedValue = value.includes(option)
-                ? value.filter((v) => v.value !== option.value)
-                : [...value, option]
-
-            onChange(updatedValue)
-            return
-        }
-        
-        option !== value && onChange(option)
-    }, [multiple, value, onChange])
-
-    const onClearOptions = () => multiple ? onChange([]) : onChange(undefined)
+    }, [multiple, value, handleSelectedOption])
 
     useEffect(() => {
-        if (isOpen) dispatch({ type: actionTypes.HIGHLIGHT_OPTION, payload: 0 })
+        isOpen && dispatch({ type: actionTypes.HIGHLIGHT_OPTION, payload: 0 })
     }, [isOpen])
 
     useEffect(() => {
@@ -68,7 +68,7 @@ const Select: FC<SelectProps> = ({ multiple, options, value, onChange }) => {
                 case "Enter":
                 case "Space":
                     dispatch({ type: actionTypes.TOGGLE_MENU })
-                    if (isOpen) handleSelectedOption(options[highlightedIndex])
+                    isOpen && handleSelectedOption(options[highlightedIndex])
                     break
                 case "ArrowUp":
                 case "ArrowDown": {
@@ -89,9 +89,11 @@ const Select: FC<SelectProps> = ({ multiple, options, value, onChange }) => {
             }
         }
 
-        containerRef.current?.addEventListener("keydown", handler)
+        const containerRefCurrent = containerRef.current
+
+        containerRefCurrent?.addEventListener("keydown", handler)
     
-        return () => containerRef.current?.removeEventListener("keydown", handler)
+        return () => containerRefCurrent?.removeEventListener("keydown", handler)
 
     }, [isOpen, highlightedIndex, options, handleSelectedOption])
 
@@ -119,22 +121,22 @@ const Select: FC<SelectProps> = ({ multiple, options, value, onChange }) => {
             <div className="caret" />    
 
             {options.length > 0 && <ul className={clsx('options', { 'show': isOpen })}>
-                {options.map((o, i) => 
+                {options.map((option, i) => 
                     <li 
-                        key={o.value} 
-                        value={o.value}
+                        key={option.value} 
+                        value={option.value}
                         className={clsx(
                             "option", 
-                            { "selected": isOptionSelected(o) },
+                            { "selected": isOptionSelected(option) },
                             { "highlighted": highlightedIndex === i }
                         )}
                         onMouseEnter={() => dispatch({ type: actionTypes.HIGHLIGHT_OPTION, payload: i }) }
                         onClick={(e) => { 
                             e.stopPropagation()
-                            handleSelectedOption(o)
+                            handleSelectedOption(option)
                             dispatch({ type: actionTypes.CLOSE_MENU })
                         }}>
-                        {o.label}
+                        {option.label}
                     </li>
                 )}
             </ul>}
