@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import Select from './Select'
-import { SelectOption } from './SelectTypes'
+import Select from './components/Select'
+import { SelectOption } from './types/SelectTypes'
 
 const options = [
     { value: 1, label: "Option 1" },

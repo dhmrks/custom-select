@@ -1,15 +1,17 @@
-// Select.scss
 :root {
-    --main-color: #2b6376; // Default main color, you can change it here or override it in your parent component
+    --bg-color: #fff;
+
+    --primary-color: #2b6376;
     --secondary-color: #777;
     --highlight-color: #40798C;
-    --background-color: #fff;
+
     --badge-bg-color: hsl(0, 100%, 90%);
     --badge-hover: hsl(0, 100%, 50%);
 }
 
 // Font Family|
 $font-family: 'Roboto', sans-serif;
+
 
 // Container
 .container {
@@ -28,18 +30,17 @@ $font-family: 'Roboto', sans-serif;
     transition: border-color 0.3s ease;
     
     &:focus {
-        border-color: var(--main-color);
+        border-color: var(--primary-color);
     }
 }
 
 // Value
 .value {
     font-family: $font-family;
-    font-size: 1em;
-    color: var(--secondary-color);
     display: flex;
     flex-grow: 1;
     flex-wrap: wrap;
+    color: var(--secondary-color);
     gap: 0.25em;
 }
 
@@ -55,7 +56,7 @@ $font-family: 'Roboto', sans-serif;
     font-size: 1.25em;
     
     &:hover, &:focus {
-        color: var(--main-color);
+        color: var(--primary-color);
     }
 }
 
@@ -75,7 +76,7 @@ $font-family: 'Roboto', sans-serif;
     border-top-color: var(--secondary-color);
     
     &:hover, &:focus {
-        border-top-color: var(--main-color);
+        border-top-color: var(--primary-color);
     }
 }
 
@@ -116,7 +117,7 @@ $font-family: 'Roboto', sans-serif;
     }
     
     &:hover {
-        background-color: var(--main-color);
+        background-color: var(--primary-color);
         color: var(--bg-color);
     }
 }
@@ -125,18 +126,16 @@ $font-family: 'Roboto', sans-serif;
 .badge {
     font-family: $font-family;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     background: none;
     outline: none;
     gap: 0.25em;
-    padding: 0.15em 0.25em;
     border: 0.05em solid var(--secondary-color);
     border-radius: 0.25em;
     cursor: pointer;
 
     .remove {
         font-size: 1.25em;
-        margin-bottom: 0.15em;
         color: var(--secondary-color);
     }
     

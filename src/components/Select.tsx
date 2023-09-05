@@ -2,9 +2,9 @@ import { FC, useCallback, useEffect, useReducer, useRef } from 'react'
 
 import clsx from 'clsx'
 
-import './sass/select.scss'
-import selectReducer from './selectReducer'
-import { actionTypes, SelectProps, SelectOption } from './SelectTypes'
+import '../sass/select.scss'
+import selectReducer from '../reducer/selectReducer'
+import { actionTypes, SelectProps, SelectOption } from '../types/SelectTypes'
 
 const initialState = {
     isOpen: false,

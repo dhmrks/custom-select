@@ -1,4 +1,4 @@
-import { actionTypes, SelectReducerAction, SelectReducerState} from './SelectTypes'
+import { actionTypes, SelectReducerAction, SelectReducerState} from '../types/SelectTypes'
 
 const selectReducer = (state: SelectReducerState, action: SelectReducerAction) => {
 
